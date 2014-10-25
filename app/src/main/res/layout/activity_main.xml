@@ -11,32 +11,35 @@
 
     <Button
         android:id="@+id/button_newFlower"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="125dp"
+        android:layout_height="100dp"
         android:text="@string/buttonNewFlower"
-    />
+        android:layout_marginLeft="30dp"
+        android:layout_alignTop="@+id/button_continue" />
 
     <Button
         android:id="@+id/button_continue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/button_newFlower"
+        android:layout_width="125dp"
+        android:layout_height="100dp"
         android:text="@string/buttonContinue"
-    />
+        android:layout_toRightOf="@+id/button_newFlower"
+        android:layout_marginTop="125dp" />
 
     <Button
         android:id="@+id/button_options"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/button_continue"
+        android:layout_width="125dp"
+        android:layout_height="100dp"
         android:text="@string/buttonOptions"
-    />
+        android:layout_below="@+id/button_newFlower"
+        android:layout_alignLeft="@+id/button_newFlower"
+        android:layout_alignStart="@+id/button_newFlower" />
 
     <Button
         android:id="@+id/exit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/button_options"
+        android:layout_width="125dp"
+        android:layout_height="100dp"
+        android:layout_toRightOf="@id/button_options"
+        android:layout_below="@id/button_newFlower"
         android:text="@string/buttonExit"
 
     />
