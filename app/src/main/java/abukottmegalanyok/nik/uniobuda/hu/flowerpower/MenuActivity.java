@@ -10,6 +10,8 @@ import android.view.WindowManager;
 
 public class MenuActivity extends Activity {
 
+    private int asd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
