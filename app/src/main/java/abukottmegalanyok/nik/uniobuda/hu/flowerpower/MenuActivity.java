@@ -1,16 +1,19 @@
 package abukottmegalanyok.nik.uniobuda.hu.flowerpower;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 
 
 public class MenuActivity extends Activity {
 
-    private int asd;
+    private Button startGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +24,15 @@ public class MenuActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_menu);
+
+        startGame = (Button) findViewById(R.id.button_newFlower);
+        startGame.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(MenuActivity.this, GameActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 
