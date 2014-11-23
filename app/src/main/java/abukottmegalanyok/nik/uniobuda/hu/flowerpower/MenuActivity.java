@@ -1,16 +1,21 @@
 package abukottmegalanyok.nik.uniobuda.hu.flowerpower;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 
 
 public class MenuActivity extends Activity {
 
     private int asd;
+
+    Button ujVirag, beallitasok, kilepes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +26,36 @@ public class MenuActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_menu);
+
+        ujVirag = (Button) findViewById(R.id.button_newFlower);
+        beallitasok = (Button) findViewById(R.id.button_options);
+        kilepes = (Button) findViewById(R.id.button_exit);
+
+        ujVirag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(MenuActivity.this, GameActivity.class);
+                //myIntent.putExtra("key", value); //Optional parameters
+                MenuActivity.this.startActivity(myIntent);
+            }
+        });
+
+        beallitasok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(MenuActivity.this, SettingsActivity.class);
+                //myIntent.putExtra("key", value); //Optional parameters
+                MenuActivity.this.startActivity(myIntent);
+            }
+        });
+
+        kilepes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
     }
 
 
