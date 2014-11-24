@@ -8,5 +8,6 @@
     <string name="buttonContinue">Folytatás</string>
     <string name="buttonOptions">Beállítások</string>
     <string name="buttonExit">Kilépés</string>
+    <string name="title_activity_game">GameActivity</string>
 
 </resources>

@@ -13,7 +13,9 @@ import android.widget.Button;
 
 public class MenuActivity extends Activity {
 
-    private Button startGame;
+    private int asd;
+
+    Button ujVirag, beallitasok, kilepes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +27,32 @@ public class MenuActivity extends Activity {
 
         setContentView(R.layout.activity_menu);
 
-        startGame = (Button) findViewById(R.id.button_newFlower);
-        startGame.setOnClickListener(new View.OnClickListener() {
+        ujVirag = (Button) findViewById(R.id.button_newFlower);
+        beallitasok = (Button) findViewById(R.id.button_options);
+        kilepes = (Button) findViewById(R.id.button_exit);
+
+        ujVirag.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MenuActivity.this, GameActivity.class);
-                startActivity(intent);
+                Intent myIntent = new Intent(MenuActivity.this, GameActivity.class);
+                //myIntent.putExtra("key", value); //Optional parameters
+                MenuActivity.this.startActivity(myIntent);
+            }
+        });
+
+        beallitasok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(MenuActivity.this, SettingsActivity.class);
+                //myIntent.putExtra("key", value); //Optional parameters
+                MenuActivity.this.startActivity(myIntent);
+            }
+        });
+
+        kilepes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 
