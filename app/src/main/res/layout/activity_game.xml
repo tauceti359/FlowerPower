@@ -6,6 +6,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+
     tools:context="abukottmegalanyok.nik.uniobuda.hu.flowerpower.GameActivity">
 
     <ImageView
@@ -16,10 +17,19 @@
 
     <Button
         android:id="@+id/locsol_btn"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
         android:text="Locsolás"  />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/gameimageView"
+        android:layout_alignEnd="@+id/gameimageView"
+        android:src="@android:drawable/ic_menu_preferences" />
+
 </RelativeLayout>
