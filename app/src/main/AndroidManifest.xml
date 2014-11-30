@@ -11,7 +11,9 @@
         android:theme="@style/AppTheme"
         android:name=".FlowerPowerApplication">
 
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity" android:theme="@android:style/Theme.Black.NoTitleBar">
+
+        </activity>
 
         <activity android:name=".GameActivity" android:screenOrientation="locked">
             <intent-filter>
@@ -20,6 +22,7 @@
             </intent-filter>
         </activity>
         <receiver android:name=".domain.VibrateReceiver"></receiver>
+
     </application>
 
 </manifest>

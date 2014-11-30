@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory
+        android:summary="Beállítások"
+        android:title="Életciklus információ" >
+        <EditTextPreference
+            android:key="number"
+            android:summary="Adja meg a virág életciklus intervallumát!"
+            android:title="Életciklus intervallum"
+            android:inputType="numberDecimal"/>
+    </PreferenceCategory>
+</PreferenceScreen>

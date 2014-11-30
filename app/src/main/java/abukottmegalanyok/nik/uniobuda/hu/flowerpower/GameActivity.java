@@ -1,6 +1,7 @@
 package abukottmegalanyok.nik.uniobuda.hu.flowerpower;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,17 +46,20 @@ public class GameActivity extends Activity {
 
         setContentView(R.layout.activity_game);
 
+        //vibrateService
         vibrateService = new VibrateService();
+        vibrateService.init();
 
+        //findViewById
         gameLocsolBtn = (Button) findViewById(R.id.locsol_btn);
         gameViragImageView = (ImageView) findViewById(R.id.gameimageView);
         settingsImageButton = (ImageButton) findViewById(R.id.imageButton);
 
+        //status, firstDraw
         flowerStatus = vibrateService.getFlowerStatus();
-        vibrateService.init();
-
         gameViragImageView.setImageResource(Utils.getDrawable(getImageResourceName(flowerStatus), "drawable"));
 
+        //onClickListeners
         gameLocsolBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,6 +82,14 @@ public class GameActivity extends Activity {
                 gameViragImageView.setImageResource(Utils.getDrawable(getImageResourceName(flowerStatus), "drawable"));
             }
 
+        });
+
+        settingsImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GameActivity.this, SettingsActivity.class);
+                startActivity(intent);
+            }
         });
 
     }
