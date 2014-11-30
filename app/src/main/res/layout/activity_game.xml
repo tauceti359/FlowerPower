@@ -10,13 +10,23 @@
     tools:context="abukottmegalanyok.nik.uniobuda.hu.flowerpower.GameActivity">
 
     <ImageView
-        android:id="@+id/gameimageView"
+        android:id="@+id/gameBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/tr_0"
+        android:src="@drawable/nappal"
+
+        />
+
+
+    <ImageView
+        android:id="@+id/gameimageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/tr_5"
         android:baselineAlignBottom="true"
         android:adjustViewBounds="false"
-        android:layout_above="@+id/locsol_btn" />
+        android:layout_above="@+id/locsol_btn"
+        />
 
     <Button
         android:id="@+id/locsol_btn"
@@ -24,7 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="Locsolás"  />
+        android:text="Locsolás"
+        />
 
     <ImageButton
         android:layout_width="wrap_content"
