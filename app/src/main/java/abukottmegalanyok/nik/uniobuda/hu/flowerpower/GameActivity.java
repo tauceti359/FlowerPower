@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ public class GameActivity extends Activity {
 
     Button gameLocsolBtn;
     ImageView gameViragImageView;
+    ImageButton settingsImageButton;
 
     VibrateService vibrateService;
 
@@ -47,7 +49,7 @@ public class GameActivity extends Activity {
 
         gameLocsolBtn = (Button) findViewById(R.id.locsol_btn);
         gameViragImageView = (ImageView) findViewById(R.id.gameimageView);
-
+        settingsImageButton = (ImageButton) findViewById(R.id.imageButton);
 
         flowerStatus = vibrateService.getFlowerStatus();
         vibrateService.init();
@@ -59,7 +61,7 @@ public class GameActivity extends Activity {
             public void onClick(View view) {
 
                 if(!ClickOccupier.occupy()){
-                    Toast.makeText(GameActivity.this, "Koran nyomtad!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GameActivity.this, "Még nem locsolhatsz!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 

@@ -13,6 +13,9 @@
         android:id="@+id/gameimageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:src="@drawable/tr_0"
+        android:baselineAlignBottom="true"
+        android:adjustViewBounds="false"
         android:layout_above="@+id/locsol_btn" />
 
     <Button
