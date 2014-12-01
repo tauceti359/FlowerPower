@@ -1,11 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:layout_height="match_parent"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp"
 
     tools:context="abukottmegalanyok.nik.uniobuda.hu.flowerpower.GameActivity">
 
@@ -13,8 +13,6 @@
         android:id="@+id/gameBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/nappal"
-
         />
 
 
@@ -22,9 +20,10 @@
         android:id="@+id/gameimageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/tr_5"
+        android:src="@drawable/tr_0"
         android:baselineAlignBottom="true"
         android:adjustViewBounds="false"
+        android:layout_alignParentBottom="true"
         android:layout_above="@+id/locsol_btn"
         />
 

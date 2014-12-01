@@ -13,6 +13,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 import abukottmegalanyok.nik.uniobuda.hu.flowerpower.domain.ClickOccupier;
 import abukottmegalanyok.nik.uniobuda.hu.flowerpower.domain.Utils;
 import abukottmegalanyok.nik.uniobuda.hu.flowerpower.domain.VibrateService;
@@ -23,6 +25,8 @@ public class GameActivity extends Activity {
     Button gameLocsolBtn;
     ImageView gameViragImageView;
     ImageButton settingsImageButton;
+    ImageView gameBackgroundImageView;
+    Calendar c;
 
     VibrateService vibrateService;
 
@@ -64,6 +68,8 @@ public class GameActivity extends Activity {
             @Override
             public void onClick(View view) {
 
+
+
                 if(!ClickOccupier.occupy()){
                     Toast.makeText(GameActivity.this, "Még nem locsolhatsz!", Toast.LENGTH_SHORT).show();
                     return;
@@ -94,6 +100,28 @@ public class GameActivity extends Activity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        gameBackgroundImageView = (ImageView) findViewById(R.id.gameBackground);
+
+        SetBackground();
+    }
+
+    //set background image dynamically based on system time
+    //7-19 daytime
+    //19-7 nighttime
+    private void SetBackground()
+    {
+        c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+
+        if(hour < 19 && hour > 7)
+            gameBackgroundImageView.setImageResource(R.drawable.nappal);
+        else
+            gameBackgroundImageView.setImageResource(R.drawable.ejszaka);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
