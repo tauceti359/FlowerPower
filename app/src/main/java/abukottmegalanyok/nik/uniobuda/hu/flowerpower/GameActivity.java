@@ -68,8 +68,6 @@ public class GameActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-
-
                 if(!ClickOccupier.occupy()){
                     Toast.makeText(GameActivity.this, "Még nem locsolhatsz!", Toast.LENGTH_SHORT).show();
                     return;
