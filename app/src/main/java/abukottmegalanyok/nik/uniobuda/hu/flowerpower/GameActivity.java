@@ -105,7 +105,6 @@ public class GameActivity extends Activity {
         super.onStart();
 
         gameBackgroundImageView = (ImageView) findViewById(R.id.gameBackground);
-
         SetBackground();
     }
 
