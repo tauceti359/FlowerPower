@@ -3,6 +3,7 @@ package abukottmegalanyok.nik.uniobuda.hu.flowerpower;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,11 +23,13 @@ import abukottmegalanyok.nik.uniobuda.hu.flowerpower.domain.VibrateService;
 
 public class GameActivity extends Activity {
 
-    Button gameLocsolBtn;
+    ImageButton gameLocsolBtn;
     ImageView gameViragImageView;
     ImageButton settingsImageButton;
     ImageView gameBackgroundImageView;
     Calendar c;
+    String timerText = "";
+
 
     VibrateService vibrateService;
 
@@ -55,7 +58,7 @@ public class GameActivity extends Activity {
         vibrateService.init();
 
         //findViewById
-        gameLocsolBtn = (Button) findViewById(R.id.locsol_btn);
+        gameLocsolBtn = (ImageButton) findViewById(R.id.locsol_btn);
         gameViragImageView = (ImageView) findViewById(R.id.gameimageView);
         settingsImageButton = (ImageButton) findViewById(R.id.imageButton);
 
@@ -67,6 +70,24 @@ public class GameActivity extends Activity {
         gameLocsolBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //timer for watering
+                new CountDownTimer(3000, 1000) {
+
+                    public void onTick(long millisUntilFinished) {
+                        timerText="seconds remaining: " + millisUntilFinished / 1000;
+                        //itt kell ellenőrizni a gyorsulásmérő adatait
+                        //ha hamarabb visszafordítják a telefont, akkor a locsolás érvénytelen
+                        Toast.makeText(GameActivity.this, timerText, Toast.LENGTH_LONG).show();
+                    }
+
+                    public void onFinish() {
+                        timerText="done";
+                        Toast.makeText(GameActivity.this, timerText, Toast.LENGTH_LONG).show();
+                    }
+                }.start();
+
+
 
                 if(!ClickOccupier.occupy()){
                     Toast.makeText(GameActivity.this, "Még nem locsolhatsz!", Toast.LENGTH_SHORT).show();
@@ -101,6 +122,14 @@ public class GameActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        gameBackgroundImageView = (ImageView) findViewById(R.id.gameBackground);
+        SetBackground();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         gameBackgroundImageView = (ImageView) findViewById(R.id.gameBackground);
         SetBackground();
