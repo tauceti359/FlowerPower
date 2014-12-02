@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -26,7 +27,7 @@ public class GameActivity extends Activity {
     ImageButton gameLocsolBtn;
     ImageView gameViragImageView;
     ImageButton settingsImageButton;
-    ImageView gameBackgroundImageView;
+    RelativeLayout gameBackground;
     Calendar c;
     String timerText = "";
 
@@ -78,7 +79,7 @@ public class GameActivity extends Activity {
                         timerText="seconds remaining: " + millisUntilFinished / 1000;
                         //itt kell ellenőrizni a gyorsulásmérő adatait
                         //ha hamarabb visszafordítják a telefont, akkor a locsolás érvénytelen
-                        Toast.makeText(GameActivity.this, timerText, Toast.LENGTH_LONG).show();
+                        //Toast.makeText(GameActivity.this, timerText, Toast.LENGTH_LONG).show();
                     }
 
                     public void onFinish() {
@@ -128,7 +129,7 @@ public class GameActivity extends Activity {
     protected void onStart() {
         super.onStart();
 
-        gameBackgroundImageView = (ImageView) findViewById(R.id.gameBackground);
+        gameBackground = (RelativeLayout) findViewById(R.id.background);
         SetBackground();
     }
 
@@ -136,7 +137,7 @@ public class GameActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
-        gameBackgroundImageView = (ImageView) findViewById(R.id.gameBackground);
+        gameBackground = (RelativeLayout) findViewById(R.id.background);
         SetBackground();
     }
 
@@ -149,9 +150,9 @@ public class GameActivity extends Activity {
         int hour = c.get(Calendar.HOUR_OF_DAY);
 
         if(hour < 19 && hour > 7)
-            gameBackgroundImageView.setImageResource(R.drawable.nappal);
+            gameBackground.setBackgroundResource(R.drawable.nappal);
         else
-            gameBackgroundImageView.setImageResource(R.drawable.ejszaka);
+            gameBackground.setBackgroundResource(R.drawable.ejszaka);
     }
 
     @Override

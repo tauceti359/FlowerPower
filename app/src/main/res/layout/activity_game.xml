@@ -6,17 +6,9 @@
     android:paddingRight="0dp"
     android:paddingTop="0dp"
     android:paddingBottom="0dp"
+    android:id="@+id/background"
 
     tools:context="abukottmegalanyok.nik.uniobuda.hu.flowerpower.GameActivity">
-
-    <ImageView
-        android:id="@+id/gameBackground"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/locsol_btn"
-        android:paddingBottom="0dp"
-        />
-
 
     <ImageView
         android:id="@+id/gameimageView"
