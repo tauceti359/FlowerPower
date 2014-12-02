@@ -1,6 +1,7 @@
 package abukottmegalanyok.nik.uniobuda.hu.flowerpower;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -9,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -112,8 +112,13 @@ public class GameActivity extends Activity {
         settingsImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(GameActivity.this, SettingsActivity.class);
+                /*
+                Intent intent = new Intent(GameActivity.this, SettingsPreference.class);
                 startActivity(intent);
+                */
+
+                //AlertDialog.Builder dialogbuilder = new AlertDialog.Builder(GameActivity.this);
+
             }
         });
 
