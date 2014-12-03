@@ -3,10 +3,11 @@
     <PreferenceCategory
         android:summary="Beállítások"
         android:title="Életciklus információ" >
-        <EditTextPreference
-            android:key="number"
-            android:summary="Adja meg a virág életciklus intervallumát!"
-            android:title="Életciklus intervallum"
-            android:inputType="numberDecimal"/>
+        <ListPreference
+            android:entries="@array/listOptions"
+            android:entryValues="@array/listValues"
+            android:key="listpref"
+            android:summary="Válassza ki, hány óránként kívánja locsolni a virágot!"
+            android:title="Öntözési ciklus"/>
     </PreferenceCategory>
 </PreferenceScreen>

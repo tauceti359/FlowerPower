@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.preference.DialogPreference;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.jar.Attributes;
 
 import abukottmegalanyok.nik.uniobuda.hu.flowerpower.domain.ClickOccupier;
 import abukottmegalanyok.nik.uniobuda.hu.flowerpower.domain.Utils;
@@ -113,14 +115,18 @@ public class GameActivity extends Activity {
         settingsImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                Intent intent = new Intent(GameActivity.this, SettingsPreference.class);
+
+                Intent intent = new Intent(GameActivity.this, PrefsActivity.class);
                 startActivity(intent);
+
+                /*
+                AlertDialog.Builder dialogbuilder = new AlertDialog.Builder(GameActivity.this);
+
+                NumberPickerPreference numberPickerPreference = new NumberPickerPreference(GameActivity.this, null);
+                numberPickerPreference.onCreateDialogView();
                 */
 
-                //AlertDialog.Builder dialogbuilder = new AlertDialog.Builder(GameActivity.this);
-
-            }
+        }
         });
 
     }

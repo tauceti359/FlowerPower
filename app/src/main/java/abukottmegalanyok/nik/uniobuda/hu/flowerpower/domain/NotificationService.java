@@ -21,8 +21,8 @@ public class NotificationService {
        NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
-                .setContentTitle("Buzzin' every " + interval + " minutes.")
-                .setContentText("Click here to change settings.")
+                .setContentTitle("Értesítés minden " + interval + " órában.")
+                .setContentText("Koppintson a locsoláshoz.")
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setOngoing(true)
                 .setAutoCancel(false);
