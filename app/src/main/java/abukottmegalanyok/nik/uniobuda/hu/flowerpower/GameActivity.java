@@ -3,6 +3,10 @@ package abukottmegalanyok.nik.uniobuda.hu.flowerpower;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.preference.DialogPreference;
@@ -26,12 +30,19 @@ import abukottmegalanyok.nik.uniobuda.hu.flowerpower.domain.VibrateService;
 
 public class GameActivity extends Activity {
 
+    //layout elements
     ImageButton gameLocsolBtn;
     ImageView gameViragImageView;
     ImageButton settingsImageButton;
     RelativeLayout gameBackground;
+
+    //timer and datetime elements
     Calendar c;
     String timerText = "";
+
+    //sensor elements
+    SensorManager sensorManager;
+    Float acc_y;
 
 
     VibrateService vibrateService;
@@ -60,10 +71,13 @@ public class GameActivity extends Activity {
         vibrateService = new VibrateService();
         vibrateService.init();
 
+        //accelereration Sensor
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+
         //findViewById
         gameLocsolBtn = (ImageButton) findViewById(R.id.locsol_btn);
         gameViragImageView = (ImageView) findViewById(R.id.gameimageView);
-        settingsImageButton = (ImageButton) findViewById(R.id.imageButton);
+        //settingsImageButton = (ImageButton) findViewById(R.id.imageButton);
 
         //status, firstDraw
         flowerStatus = vibrateService.getFlowerStatus();
@@ -73,12 +87,12 @@ public class GameActivity extends Activity {
         gameLocsolBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 //timer for watering
                 new CountDownTimer(3000, 1000) {
 
                     public void onTick(long millisUntilFinished) {
-                        timerText="seconds remaining: " + millisUntilFinished / 1000;
+                        //timerText="seconds remaining: " + millisUntilFinished / 1000;
+                        timerText=acc_y.toString();
                         //itt kell ellenőrizni a gyorsulásmérő adatait
                         //ha hamarabb visszafordítják a telefont, akkor a locsolás érvénytelen
                         //Toast.makeText(GameActivity.this, timerText, Toast.LENGTH_LONG).show();
@@ -112,22 +126,22 @@ public class GameActivity extends Activity {
 
         });
 
-        settingsImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(GameActivity.this, PrefsActivity.class);
-                startActivity(intent);
-
-                /*
-                AlertDialog.Builder dialogbuilder = new AlertDialog.Builder(GameActivity.this);
-
-                NumberPickerPreference numberPickerPreference = new NumberPickerPreference(GameActivity.this, null);
-                numberPickerPreference.onCreateDialogView();
-                */
-
-        }
-        });
+//        settingsImageButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                Intent intent = new Intent(GameActivity.this, PrefsActivity.class);
+//                startActivity(intent);
+//
+//                /*
+//                AlertDialog.Builder dialogbuilder = new AlertDialog.Builder(GameActivity.this);
+//
+//                NumberPickerPreference numberPickerPreference = new NumberPickerPreference(GameActivity.this, null);
+//                numberPickerPreference.onCreateDialogView();
+//                */
+//
+//        }
+//        });
 
     }
 
@@ -143,8 +157,20 @@ public class GameActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
+        sensorManager.registerListener(
+                listener,
+                sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                sensorManager.SENSOR_DELAY_FASTEST
+        );
+
         gameBackground = (RelativeLayout) findViewById(R.id.background);
         SetBackground();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(listener);
     }
 
     //set background image dynamically based on system time
@@ -160,6 +186,20 @@ public class GameActivity extends Activity {
         else
             gameBackground.setBackgroundResource(R.drawable.ejszaka);
     }
+
+    private SensorEventListener listener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent sensorEvent) {
+            float[] values = sensorEvent.values;
+            acc_y = values[1];
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int i) {
+
+        }
+    };
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

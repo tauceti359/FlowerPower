@@ -10,6 +10,16 @@
 
     tools:context="abukottmegalanyok.nik.uniobuda.hu.flowerpower.GameActivity">
 
+    <ImageButton
+        android:id="@+id/locsol_btn"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/wateringcan"
+        android:padding="0dp"
+        />
+
     <ImageView
         android:id="@+id/gameimageView"
         android:layout_width="match_parent"
@@ -18,28 +28,18 @@
         android:baselineAlignBottom="true"
         android:adjustViewBounds="false"
         android:layout_alignParentBottom="true"
-        android:layout_above="@+id/locsol_btn"
-        android:layout_marginBottom="-55dp"
-        android:paddingBottom="0dp"
+        android:layout_below="@id/locsol_btn"
+        android:layout_marginBottom="-150dp"
         />
 
-    <ImageButton
-        android:id="@+id/locsol_btn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/wateringcan"
-        android:padding="0dp"
-        />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButton"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/gameimageView"
-        android:layout_alignEnd="@+id/gameimageView"
-        android:src="@android:drawable/ic_menu_preferences" />
+
+    <!--<ImageButton-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/imageButton"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_toLeftOf="@id/locsol_btn"-->
+        <!--android:src="@android:drawable/ic_menu_preferences" />-->
 
 </RelativeLayout>
