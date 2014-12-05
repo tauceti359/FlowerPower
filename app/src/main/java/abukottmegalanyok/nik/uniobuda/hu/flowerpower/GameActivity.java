@@ -3,6 +3,7 @@ package abukottmegalanyok.nik.uniobuda.hu.flowerpower;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -15,15 +16,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.lang.Math;
 import java.util.jar.Attributes;
 
 import abukottmegalanyok.nik.uniobuda.hu.flowerpower.domain.ClickOccupier;
+import abukottmegalanyok.nik.uniobuda.hu.flowerpower.domain.Flower;
 import abukottmegalanyok.nik.uniobuda.hu.flowerpower.domain.Utils;
 import abukottmegalanyok.nik.uniobuda.hu.flowerpower.domain.VibrateService;
 
@@ -35,35 +39,38 @@ public class GameActivity extends Activity {
     ImageView gameViragImageView;
     ImageButton settingsImageButton;
     RelativeLayout gameBackground;
+    Flower flower;
 
     //timer and datetime elements
-    Calendar c;
-    String timerText = "";
+    Calendar c; //for backgroundchange
+    boolean wateringOk; //for dataflow between timers
+    CountDownTimer wateringTimer;
+    CountDownTimer betweenWatering;
+    CountDownTimer afterWateringWarning;
 
     //sensor elements
     SensorManager sensorManager;
-    Float acc_y;
-
+    Float acc_x;
 
     VibrateService vibrateService;
 
-    int flowerStatus = 0;
+    //int flowerStatus = 0;
 
-    public static final String viragImageREsource = "tr_{szam}";
+    //public static final String viragImageREsource = "tr_{szam}";
 
-    public String getImageResourceName(int status){
-        String temp = viragImageREsource;
-        String temp2 = temp.replace("{szam}", Integer.toString(status));
-        return temp2;
-    }
+//    public String getImageResourceName(int status){
+//        String temp = viragImageREsource;
+//        String temp2 = temp.replace("{szam}", Integer.toString(status));
+//        return temp2;
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //TODO a menü kellene a setting miatt, meg egyébként is fölösleges sztem levenni... ez egy virág, nem mozog semerre :)
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_game);
 
@@ -76,55 +83,128 @@ public class GameActivity extends Activity {
 
         //findViewById
         gameLocsolBtn = (ImageButton) findViewById(R.id.locsol_btn);
-        gameViragImageView = (ImageView) findViewById(R.id.gameimageView);
+        flower = (Flower) findViewById(R.id.flower);
+        //gameViragImageView = (ImageView) findViewById(R.id.gameimageView);
         //settingsImageButton = (ImageButton) findViewById(R.id.imageButton);
 
         //status, firstDraw
-        flowerStatus = vibrateService.getFlowerStatus();
-        gameViragImageView.setImageResource(Utils.getDrawable(getImageResourceName(flowerStatus), "drawable"));
+        //flowerStatus = vibrateService.getFlowerStatus();
+        //gameViragImageView.setImageResource(Utils.getDrawable(getImageResourceName(flowerStatus), "drawable"));
 
         //onClickListeners
+
         gameLocsolBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //timer for watering
-                new CountDownTimer(3000, 1000) {
+                wateringTimer.start();
 
-                    public void onTick(long millisUntilFinished) {
-                        //timerText="seconds remaining: " + millisUntilFinished / 1000;
-                        timerText=acc_y.toString();
-                        //itt kell ellenőrizni a gyorsulásmérő adatait
-                        //ha hamarabb visszafordítják a telefont, akkor a locsolás érvénytelen
-                        //Toast.makeText(GameActivity.this, timerText, Toast.LENGTH_LONG).show();
-                    }
+//                if(!ClickOccupier.occupy()){
+//                    Toast.makeText(GameActivity.this, "Még nem locsolhatsz!", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
 
-                    public void onFinish() {
-                        timerText="done";
-                        Toast.makeText(GameActivity.this, timerText, Toast.LENGTH_LONG).show();
-                    }
-                }.start();
-
-
-
-                if(!ClickOccupier.occupy()){
-                    Toast.makeText(GameActivity.this, "Még nem locsolhatsz!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
+                //TODO a vibrate-ről az összes virággal kapcsolatos állítási lehetőséget törölni
                 vibrateService.vibrate();
                 vibrateService.toggle();
-
-                if(flowerStatus == 5){
-
-                   flowerStatus = 0;
-
-                }else{
-                    flowerStatus++;
-                }
-                gameViragImageView.setImageResource(Utils.getDrawable(getImageResourceName(flowerStatus), "drawable"));
+//
+//                if(flowerStatus == 5){
+//
+//                   flowerStatus = 0;
+//
+//                }else{
+//                    flowerStatus++;
+//                }
+                //gameViragImageView.setImageResource(Utils.getDrawable(getImageResourceName(flowerStatus), "drawable"));
             }
 
         });
+
+        //this is a 3sec timer for watering
+        wateringTimer = new CountDownTimer(3000, 1000) {
+            Float watering_max = -20f;
+            Float watering_min = 20f;
+            String timerText = "";
+
+            public void onTick(long millisUntilFinished) {
+                timerText= acc_x.toString();
+                float temp = Math.abs(acc_x);
+
+                if(temp > watering_max)
+                    watering_max = temp;
+
+                if(temp < watering_min)
+                    watering_min = temp;
+            }
+
+            public void onFinish() {
+                if(watering_max < 10.5f && watering_min > 9.5f){
+                    timerText="A locsolás sikeres";
+                    flower.LevelUp();
+                    flower.Refresh();
+                    betweenWatering.start();
+                    wateringOk = true;
+                    gameLocsolBtn.setEnabled(false);
+                    gameLocsolBtn.setImageResource(R.drawable.wateringcan_disabled);
+                    //TODO a virág képét kellene állítani az élénkebb zöldre
+                }
+                else {
+                    //timerText = "max: " + watering_max.toString() + ", min: " + watering_min.toString();
+                    timerText = "A locsolás sikertelen, próbáld újra";
+                    wateringOk = false;
+                    afterWateringWarning.start();
+                }
+                watering_max = -20f;
+                watering_min = 20f;
+
+                Toast.makeText(GameActivity.this, timerText, Toast.LENGTH_LONG).show();
+            }
+        };
+
+        //timer to measure the time between two watering (now 5sec)
+        //start after successfull watering
+        //the watering button is disabled in this period
+        //TODO ezt kellene állítani settingsből
+        betweenWatering = new CountDownTimer(5000,1000) {
+            String timerText = "";
+
+            public void onTick(long l) {
+            }
+
+            public void onFinish() {
+                timerText = "A virágot meg kell locsolni!!!";
+                wateringOk = false;
+                gameLocsolBtn.setEnabled(true);
+                gameLocsolBtn.setImageResource(R.drawable.wateringcan);
+                afterWateringWarning.start();
+                //TODO a virág képét kellene állítani a halványabb zöldre
+                Toast.makeText(GameActivity.this, timerText, Toast.LENGTH_LONG).show();
+            }
+        };
+
+        //start after timeout betweenWatering
+        afterWateringWarning = new CountDownTimer(6000, 1000) {
+            String timerText = "";
+
+            public void onTick(long l) {
+            }
+
+            public void onFinish() {
+                if(!wateringOk){
+                    if(flower.getLevel() != 0) {
+                        timerText = "A virágod szintje csökken, mert nem locsoltad meg";
+                        flower.LevelDown();
+                        flower.Refresh();
+                        this.start();
+                    }
+                    else
+                        timerText = "A virágod visszajutott a kezdeti állapotba";
+
+                    Toast.makeText(GameActivity.this, timerText, Toast.LENGTH_LONG).show();
+                }
+                else
+                    this.cancel(); //timer is canceled if the watering button is clicked
+            }
+        };
 
 //        settingsImageButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -157,6 +237,7 @@ public class GameActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
+        //register listener to accelerometer
         sensorManager.registerListener(
                 listener,
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
@@ -191,7 +272,7 @@ public class GameActivity extends Activity {
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
             float[] values = sensorEvent.values;
-            acc_y = values[1];
+            acc_x = values[0]; //it's enough only x acclereration
         }
 
         @Override
