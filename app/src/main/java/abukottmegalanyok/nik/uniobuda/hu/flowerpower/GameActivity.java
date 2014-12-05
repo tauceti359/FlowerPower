@@ -85,7 +85,7 @@ public class GameActivity extends Activity {
         gameLocsolBtn = (ImageButton) findViewById(R.id.locsol_btn);
         flower = (Flower) findViewById(R.id.flower);
         //gameViragImageView = (ImageView) findViewById(R.id.gameimageView);
-        //settingsImageButton = (ImageButton) findViewById(R.id.imageButton);
+        settingsImageButton = (ImageButton) findViewById(R.id.imageButton);
 
         //status, firstDraw
         //flowerStatus = vibrateService.getFlowerStatus();
@@ -206,22 +206,22 @@ public class GameActivity extends Activity {
             }
         };
 
-//        settingsImageButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                Intent intent = new Intent(GameActivity.this, PrefsActivity.class);
-//                startActivity(intent);
-//
-//                /*
-//                AlertDialog.Builder dialogbuilder = new AlertDialog.Builder(GameActivity.this);
-//
-//                NumberPickerPreference numberPickerPreference = new NumberPickerPreference(GameActivity.this, null);
-//                numberPickerPreference.onCreateDialogView();
-//                */
-//
-//        }
-//        });
+        settingsImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(GameActivity.this, PrefsActivity.class);
+                startActivity(intent);
+
+                /*
+                AlertDialog.Builder dialogbuilder = new AlertDialog.Builder(GameActivity.this);
+
+                NumberPickerPreference numberPickerPreference = new NumberPickerPreference(GameActivity.this, null);
+                numberPickerPreference.onCreateDialogView();
+                */
+
+        }
+        });
 
     }
 

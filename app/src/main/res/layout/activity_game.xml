@@ -45,12 +45,12 @@
 
 
 
-    <!--<ImageButton-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/imageButton"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:layout_toLeftOf="@id/locsol_btn"-->
-        <!--android:src="@android:drawable/ic_menu_preferences" />-->
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@id/locsol_btn"
+        android:src="@android:drawable/ic_menu_preferences" />
 
 </RelativeLayout>
