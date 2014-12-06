@@ -6,6 +6,7 @@
         <ListPreference
             android:entries="@array/listOptions"
             android:entryValues="@array/listValues"
+            android:defaultValue="1"
             android:key="listpref"
             android:summary="Válassza ki, hány óránként kívánja locsolni a virágot!"
             android:title="Öntözési ciklus"/>
