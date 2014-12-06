@@ -18,25 +18,9 @@ public class PrefsActivity extends PreferenceActivity implements SharedPreferenc
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        //prefs-ben lévő, key kulcsú beállítás megváltozásának lekezelése
-
-        //Init
-        SharedPreferences sp = sharedPreferences;
-        String key = s;
-        int defValue = 1;
-        //PutInt
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putInt(key, sp.getInt(key, defValue));
-
-        editor.commit();
-
         //Toast
+        SharedPreferences sp = sharedPreferences;
         String toastOut = sp.getString("listpref", "Default");
-        Toast.makeText(this, toastOut, Toast.LENGTH_SHORT).show();
-
-        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        //String toastOut = sp.getString("listpref", "Default");
-        //Toast.makeText(this, toastOut, Toast.LENGTH_SHORT).show();
-
+        Toast.makeText(this, "Az öntözési ciklus mostantól: " + toastOut + " óra!", Toast.LENGTH_LONG).show();
     }
 }

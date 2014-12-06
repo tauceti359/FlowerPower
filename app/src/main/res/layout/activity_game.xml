@@ -20,17 +20,30 @@
         android:padding="0dp"
         />
 
-    <abukottmegalanyok.nik.uniobuda.hu.flowerpower.domain.Flower
-        android:id="@+id/flower"
+    <FrameLayout
+        android:name="abukottmegalanyok.nik.uniobuda.hu.flowerpower.FlowerFragment"
+        android:id="@+id/flower_fragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:baselineAlignBottom="true"
-        android:adjustViewBounds="false"
         android:layout_alignParentBottom="true"
-        android:layout_below="@id/locsol_btn"
+        android:layout_below="@+id/locsol_btn"
         android:layout_marginBottom="-160dp"
+        >
+    </FrameLayout>
 
-        />
+    <!--<abukottmegalanyok.nik.uniobuda.hu.flowerpower.domain.Flower-->
+        <!--android:id="@+id/flower"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:baselineAlignBottom="true"-->
+        <!--android:adjustViewBounds="false"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_below="@id/locsol_btn"-->
+        <!--android:layout_marginBottom="-160dp"-->
+
+        <!--/>-->
+
 
     <!--<ImageView-->
         <!--android:id="@+id/gameimageView"-->

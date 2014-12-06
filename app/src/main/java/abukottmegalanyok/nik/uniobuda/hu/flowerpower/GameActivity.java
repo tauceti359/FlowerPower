@@ -2,6 +2,9 @@ package abukottmegalanyok.nik.uniobuda.hu.flowerpower;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
@@ -31,6 +34,7 @@ import java.util.jar.Attributes;
 
 import abukottmegalanyok.nik.uniobuda.hu.flowerpower.domain.ClickOccupier;
 import abukottmegalanyok.nik.uniobuda.hu.flowerpower.domain.Flower;
+import abukottmegalanyok.nik.uniobuda.hu.flowerpower.domain.FlowerFragment;
 import abukottmegalanyok.nik.uniobuda.hu.flowerpower.domain.Utils;
 import abukottmegalanyok.nik.uniobuda.hu.flowerpower.domain.VibrateService;
 
@@ -42,7 +46,8 @@ public class GameActivity extends Activity {
     ImageView gameViragImageView;
     ImageButton settingsImageButton;
     RelativeLayout gameBackground;
-    Flower flower;
+//    Flower flower;
+    FlowerFragment flowerFragment;
 
     //timer and datetime elements
     Calendar c; //for backgroundchange
@@ -58,6 +63,8 @@ public class GameActivity extends Activity {
 
     VibrateService vibrateService;
 
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
 
     int flowerLevel;
 
@@ -72,12 +79,19 @@ public class GameActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //TODO a menü kellene a setting miatt, meg egyébként is fölösleges sztem levenni... ez egy virág, nem mozog semerre :)
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_game);
+
+        fragmentManager = getFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+
+        flowerFragment = new FlowerFragment();
+        fragmentTransaction.replace(android.R.id.content, flowerFragment);
+
+        fragmentTransaction.commit();
 
         //vibrateService
         vibrateService = new VibrateService();
@@ -88,14 +102,7 @@ public class GameActivity extends Activity {
 
         //findViewById
         gameLocsolBtn = (ImageButton) findViewById(R.id.locsol_btn);
-        flower = (Flower) findViewById(R.id.flower);
-//        RelativeLayout layout = (RelativeLayout)findViewById(R.id.background);
-//        flower = new Flower(this);
-//        flower.setMaxHeight(600);
-//        flower.setMaxWidth(588);
-//        layout.addView(flower);
-
-
+//        flower = (Flower) findViewById(R.id.flower);
 
         //gameViragImageView = (ImageView) findViewById(R.id.gameimageView);
 
@@ -110,13 +117,14 @@ public class GameActivity extends Activity {
         gameLocsolBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                gameLocsolBtn.setEnabled(false);
+                gameLocsolBtn.setImageResource(R.drawable.wateringcan_disabled);
                 wateringTimer.start();
 //                if(!ClickOccupier.occupy()){
 //                    Toast.makeText(GameActivity.this, "Még nem locsolhatsz!", Toast.LENGTH_SHORT).show();
 //                    return;
 //                }
 
-                //TODO a vibrate-ről az összes virággal kapcsolatos állítási lehetőséget törölni
 //                vibrateService.vibrate();
 //                vibrateService.toggle();
 //
@@ -151,20 +159,29 @@ public class GameActivity extends Activity {
 
             public void onFinish() {
                 if(watering_max < 10.5f && watering_min > 9.5f){
-                    flower.LevelUp();
+
+//                    flower.LevelUp();
+                    flowerFragment.SetFlowerLevelUp();
                     Log.i("levelup", "levelup");
-                    flower.Refresh();
+//                    flower.Refresh();
+                    flowerFragment.FragmentRefresh();
+
+                    Fragment old = flowerFragment;
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.detach(flowerFragment);
+                    fragmentTransaction.attach(old);
+                    fragmentTransaction.commit();
                     betweenWatering.start();
                     wateringOk = true;
-                    gameLocsolBtn.setEnabled(false);
-                    gameLocsolBtn.setImageResource(R.drawable.wateringcan_disabled);
-                    timerText="A locsolás sikeres Level: " + Integer.toString(flower.getLevel());
+                    timerText="A locsolás sikeres Level: " + Integer.toString(flowerFragment.GetFlowerLevel());
                     //TODO a virág képét kellene állítani az élénkebb zöldre
                 }
                 else {
                     //timerText = "max: " + watering_max.toString() + ", min: " + watering_min.toString();
                     timerText = "A locsolás sikertelen, próbáld újra";
                     wateringOk = false;
+                    gameLocsolBtn.setEnabled(true);
+                    gameLocsolBtn.setImageResource(R.drawable.wateringcan);
                     afterWateringWarning.start();
                 }
                 watering_max = -20f;
@@ -185,7 +202,7 @@ public class GameActivity extends Activity {
             }
 
             public void onFinish() {
-                timerText = "A virágot meg kell locsolni!!! Level: " + Integer.toString(flower.getLevel());
+                timerText = "A virágot meg kell locsolni!!! Level: " + Integer.toString(flowerFragment.GetFlowerLevel());
                 wateringOk = false;
                 gameLocsolBtn.setEnabled(true);
                 gameLocsolBtn.setImageResource(R.drawable.wateringcan);
@@ -207,16 +224,18 @@ public class GameActivity extends Activity {
 
             public void onFinish() {
                 if(!wateringOk){
-                    if(flower.getLevel() != 0) {
-                        flower.LevelDown();
+                    if(flowerFragment.GetFlowerLevel() != 0) {
+//                        flower.LevelDown();
+                        flowerFragment.SetFlowerLevelDown();
                         Log.i("leveldown", "leveldown");
-                        flower.Refresh();
-                        timerText = "A virágod szintje csökken, mert nem locsoltad meg Level: " + Integer.toString(flower.getLevel()) ;
+//                        flower.Refresh();
+                        flowerFragment.FragmentRefresh();
+                        timerText = "A virágod szintje csökken, mert nem locsoltad meg Level: " + Integer.toString(flowerFragment.GetFlowerLevel()) ;
                         //this.start();
                         betweenWatering.start();
                     }
                     else
-                        timerText = "A virágod visszajutott a kezdeti állapotba Level: " + Integer.toString(flower.getLevel());
+                        timerText = "A virágod visszajutott a kezdeti állapotba Level: " + Integer.toString(flowerFragment.GetFlowerLevel());
 
                     Toast.makeText(GameActivity.this, timerText, Toast.LENGTH_LONG).show();
                 }
@@ -255,9 +274,6 @@ public class GameActivity extends Activity {
         Log.i("levelstart", "levelstart");
         gameBackground = (RelativeLayout) findViewById(R.id.background);
         SetBackground();
-//        flower = (Flower) findViewById(R.id.flower);
-//        flower.setLevel(((FlowerPowerApplication) this.getApplication()).getFlowerLevel());
-
     }
 
     @Override
@@ -273,7 +289,6 @@ public class GameActivity extends Activity {
 
         gameBackground = (RelativeLayout) findViewById(R.id.background);
         SetBackground();
-        //Toast.makeText(GameActivity.this, Integer.toString(flowerLevel), Toast.LENGTH_LONG).show();
 
     }
 
@@ -281,8 +296,6 @@ public class GameActivity extends Activity {
     protected void onPause() {
         super.onPause();
         sensorManager.unregisterListener(listener);
-//        ((FlowerPowerApplication) this.getApplication()).setFlowerLevel(flower.getLevel());
-//        flower.remo;
     }
 
     @Override
@@ -336,5 +349,14 @@ public class GameActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public int getActualListPrefValue(){
+
+        SharedPreferences defaultPrefs;
+        defaultPrefs = PreferenceManager.getDefaultSharedPreferences(FlowerPowerApplication.getAppContext());
+
+
+        return Integer.parseInt(defaultPrefs.getString("listpref", "1"));
     }
 }

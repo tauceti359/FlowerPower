@@ -10,6 +10,6 @@
             android:key="listpref"
             android:summary="Válassza ki, hány óránként kívánja locsolni a virágot!"
             android:title="Öntözési ciklus"
-            android:defaultValue="false"/>
+            />
     </PreferenceCategory>
 </PreferenceScreen>

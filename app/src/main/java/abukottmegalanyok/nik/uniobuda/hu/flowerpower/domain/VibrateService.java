@@ -106,15 +106,15 @@ public class VibrateService {
         }
     }
 
-    public int getFlowerStatus(){
-        return prefs.getInt("flowerStatus", 0);
-    }
-
-    public void setFlowerStatus(int status){
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("flowerStatus", status);
-        editor.commit();
-    }
+//    public int getFlowerStatus(){
+//        return prefs.getInt("flowerStatus", 0);
+//    }
+//
+//    public void setFlowerStatus(int status){
+//        SharedPreferences.Editor editor = prefs.edit();
+//        editor.putInt("flowerStatus", status);
+//        editor.commit();
+//    }
 
     private int getInterval() {
         return prefs.getInt("interval", 1);
