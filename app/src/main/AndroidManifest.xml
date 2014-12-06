@@ -13,16 +13,21 @@
 
         <activity
             android:name=".PrefsActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:screenOrientation="locked">
         </activity>
 
-        <activity android:name=".GameActivity" android:screenOrientation="locked">
+        <activity
+            android:name=".GameActivity"
+            android:screenOrientation="locked">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".domain.VibrateReceiver"></receiver>
+        <receiver
+            android:name=".domain.VibrateReceiver">
+        </receiver>
 
     </application>
 
