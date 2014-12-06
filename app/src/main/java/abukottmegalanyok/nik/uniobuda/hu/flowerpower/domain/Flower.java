@@ -12,7 +12,7 @@ import android.widget.ImageView;
 public class Flower extends ImageView {
 
     private int level;
-    private int humidity;
+//    private int humidity;
     public static final String flowerImageResource = "tr_{szam}";
 
     public Flower(Context context) {
@@ -32,7 +32,7 @@ public class Flower extends ImageView {
 
     private void init(){
         this.level = 0;
-        this.humidity = 10;
+//        this.humidity = 10;
         Refresh();
     }
 
@@ -55,14 +55,14 @@ public class Flower extends ImageView {
     }
 
     //set the flower's humidity to max value (10)
-    public void HumidityUpToMax(){
-        this.humidity = 10;
-    }
+//    public void HumidityUpToMax(){
+//        this.humidity = 10;
+//    }
 
     //decrease the flower's humidity value
-    public void HumidityDown(){
-        this.humidity--;
-    }
+//    public void HumidityDown(){
+//        this.humidity--;
+//    }
 
 
     //set the flower's image based on the level
@@ -70,12 +70,16 @@ public class Flower extends ImageView {
        this.setImageResource(Utils.getDrawable(getImageResourceName(), "drawable"));
     }
 
+//    public int GetBackgroundImageId(){
+//        return Utils.getDrawable(getImageResourceName(), "drawable");
+//    }
+
 
     public int getLevel() {
         return level;
     }
 
-    public void setLevel(int value) { this.level = value; }
+//    public void setLevel(int value) { this.level = value; }
 
 
 }

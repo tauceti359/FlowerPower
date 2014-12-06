@@ -19,24 +19,45 @@ public class FlowerFragment extends Fragment {
 //        return super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.flower_fragment, container, false);
         flower = (Flower) view.findViewById(R.id.flower);
-        return inflater.inflate(R.layout.flower_fragment, container, false);
+        return view;
     }
 
+    //increase the flower's level
     public void SetFlowerLevelUp(){
         flower.LevelUp();
     }
 
+    //decrease the flower's level
     public void SetFlowerLevelDown(){
         flower.LevelDown();
     }
 
+    //refresh the source of the flower
     public void FragmentRefresh(){
         flower.Refresh();
-
     }
 
+    //return the flower's level
     public int GetFlowerLevel(){
         return flower.getLevel();
     }
 
+//    @Override
+//    public void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//
+//        outState.putInt("flevel", flower.getLevel());
+//        outState.putInt("backgroundId", flower.GetBackgroundImageId());
+//    }
+
+//    @Override
+//    public void onActivityCreated(Bundle savedInstanceState) {
+//        super.onActivityCreated(savedInstanceState);
+//
+//        if(savedInstanceState != null){
+//            flower.setLevel(savedInstanceState.getInt("flevel", 0));
+//            flower.setImageResource(savedInstanceState.getInt("backgroundId", 0));
+//        }
+//
+//    }
 }

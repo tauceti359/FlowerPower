@@ -20,6 +20,7 @@
         android:padding="0dp"
         />
 
+    <!--this is the place for the flower -->
     <FrameLayout
         android:name="abukottmegalanyok.nik.uniobuda.hu.flowerpower.FlowerFragment"
         android:id="@+id/flower_fragment"

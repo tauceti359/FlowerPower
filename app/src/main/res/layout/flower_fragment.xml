@@ -7,6 +7,7 @@
     android:layout_marginBottom="-160dp"
     android:id="@+id/flower_linear">
 
+    <!--the flower-->
     <abukottmegalanyok.nik.uniobuda.hu.flowerpower.domain.Flower
         android:id="@+id/flower"
         android:layout_width="match_parent"

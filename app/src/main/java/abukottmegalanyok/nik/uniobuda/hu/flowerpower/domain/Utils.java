@@ -9,6 +9,7 @@ import abukottmegalanyok.nik.uniobuda.hu.flowerpower.FlowerPowerApplication;
  */
 public class Utils {
 
+    //get the id of the source based on imagename
     public static int getDrawable(String imagename, String identifier){
         return FlowerPowerApplication.getAppContext().getResources().getIdentifier(imagename, identifier, FlowerPowerApplication.getAppContext().getPackageName());
     }

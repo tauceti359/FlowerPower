@@ -63,34 +63,29 @@ public class GameActivity extends Activity {
 
     VibrateService vibrateService;
 
+    //fragment manager
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-
-    int flowerLevel;
-
-    //public static final String viragImageREsource = "tr_{szam}";
-
-//    public String getImageResourceName(int status){
-//        String temp = viragImageREsource;
-//        String temp2 = temp.replace("{szam}", Integer.toString(status));
-//        return temp2;
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        if(savedInstanceState != null){
+//            flowerFragment = (FlowerFragment) getFragmentManager().getFragment(savedInstanceState, "flowerFragment");
+//        }
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_game);
 
+        //put the fragment on layout
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-
         flowerFragment = new FlowerFragment();
         fragmentTransaction.replace(android.R.id.content, flowerFragment);
-
         fragmentTransaction.commit();
 
         //vibrateService
@@ -113,34 +108,26 @@ public class GameActivity extends Activity {
         //gameViragImageView.setImageResource(Utils.getDrawable(getImageResourceName(flowerStatus), "drawable"));
 
         //onClickListeners
-
         gameLocsolBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 gameLocsolBtn.setEnabled(false);
                 gameLocsolBtn.setImageResource(R.drawable.wateringcan_disabled);
                 wateringTimer.start();
-//                if(!ClickOccupier.occupy()){
-//                    Toast.makeText(GameActivity.this, "Még nem locsolhatsz!", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-
-//                vibrateService.vibrate();
-//                vibrateService.toggle();
-//
-//                if(flowerStatus == 5){
-//
-//                   flowerStatus = 0;
-//
-//                }else{
-//                    flowerStatus++;
-//                }
-                //gameViragImageView.setImageResource(Utils.getDrawable(getImageResourceName(flowerStatus), "drawable"));           fl
             }
 
         });
 
-        //this is a 3sec timer for watering
+        settingsImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GameActivity.this, PrefsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //this is a 2sec timer for watering
+        //the device have to be hold in landscape orientation
         wateringTimer = new CountDownTimer(2000, 1000) {
             Float watering_max = -20f;
             Float watering_min = 20f;
@@ -161,19 +148,19 @@ public class GameActivity extends Activity {
                 if(watering_max < 10.5f && watering_min > 9.5f){
 
 //                    flower.LevelUp();
-                    flowerFragment.SetFlowerLevelUp();
-                    Log.i("levelup", "levelup");
 //                    flower.Refresh();
-                    flowerFragment.FragmentRefresh();
-
-                    Fragment old = flowerFragment;
+                    //set the flower's level on the fragment
                     fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.detach(flowerFragment);
-                    fragmentTransaction.attach(old);
+                    flowerFragment.SetFlowerLevelUp();
+//                    Log.i("levelup", "levelup");
+                    flowerFragment.FragmentRefresh();
                     fragmentTransaction.commit();
+
+                    //start new counter
                     betweenWatering.start();
                     wateringOk = true;
-                    timerText="A locsolás sikeres Level: " + Integer.toString(flowerFragment.GetFlowerLevel());
+//                    timerText="A locsolás sikeres Level: " + Integer.toString(flowerFragment.GetFlowerLevel());
+                    timerText = "A locsolás sikeres";
                     //TODO a virág képét kellene állítani az élénkebb zöldre
                 }
                 else {
@@ -191,11 +178,12 @@ public class GameActivity extends Activity {
             }
         };
 
+        int userPref = getActualListPrefValue();
         //timer to measure the time between two watering (now 5sec)
         //start after successfull watering
-        //the watering button is disabled in this period
-        //TODO ezt kellene állítani settingsből
-        betweenWatering = new CountDownTimer(8000,1000) {
+        //the watering button is disabled in this
+        //@param1 = userPref(hour) * 3600(seconds in 1 hour) * 1000 (milliseconds in sec)
+        betweenWatering = new CountDownTimer(userPref*3600*1000,1000) {
             String timerText = "";
 
             public void onTick(long millisUntilFinished) {
@@ -211,14 +199,14 @@ public class GameActivity extends Activity {
                 afterWateringWarning.start();
 
                 //TODO a virág képét kellene állítani a halványabb zöldre
-                Toast.makeText(GameActivity.this, timerText, Toast.LENGTH_LONG).show();
+//                Toast.makeText(GameActivity.this, timerText, Toast.LENGTH_LONG).show();
             }
         };
 
         //start after timeout betweenWatering
-        afterWateringWarning = new CountDownTimer(10000, 1000) {
+        //user got 2 minutes to water the flower after the notification
+        afterWateringWarning = new CountDownTimer(2*60*1000, 1000) {
             String timerText = "";
-
             public void onTick(long l) {
             }
 
@@ -226,17 +214,23 @@ public class GameActivity extends Activity {
                 if(!wateringOk){
                     if(flowerFragment.GetFlowerLevel() != 0) {
 //                        flower.LevelDown();
-                        flowerFragment.SetFlowerLevelDown();
-                        Log.i("leveldown", "leveldown");
 //                        flower.Refresh();
+
+                        //set the flower's level on fragment
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        flowerFragment.SetFlowerLevelDown();
+//                        Log.i("leveldown", "leveldown");
                         flowerFragment.FragmentRefresh();
-                        timerText = "A virágod szintje csökken, mert nem locsoltad meg Level: " + Integer.toString(flowerFragment.GetFlowerLevel()) ;
+                        fragmentTransaction.commit();
+
+//                        timerText = "A virágod szintje csökken, mert nem locsoltad meg Level: " + Integer.toString(flowerFragment.GetFlowerLevel()) ;
+                        timerText = "A virágod szintje csökkent, mert nem locsotad meg";
                         //this.start();
                         betweenWatering.start();
                     }
                     else
-                        timerText = "A virágod visszajutott a kezdeti állapotba Level: " + Integer.toString(flowerFragment.GetFlowerLevel());
-
+//                        timerText = "A virágod visszajutott a kezdeti állapotba Level: " + Integer.toString(flowerFragment.GetFlowerLevel());
+                        timerText = "A virágod visszajutott a kezdeti állapotba";
                     Toast.makeText(GameActivity.this, timerText, Toast.LENGTH_LONG).show();
                 }
                 else {
@@ -245,33 +239,12 @@ public class GameActivity extends Activity {
                 }
             }
         };
-
-
-
-        settingsImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(GameActivity.this, PrefsActivity.class);
-                startActivity(intent);
-
-                /*
-                AlertDialog.Builder dialogbuilder = new AlertDialog.Builder(GameActivity.this);
-
-                NumberPickerPreference numberPickerPreference = new NumberPickerPreference(GameActivity.this, null);
-                numberPickerPreference.onCreateDialogView();
-                */
-
-        }
-        });
-
     }
-
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.i("levelstart", "levelstart");
+//        Log.i("levelstart", "levelstart");
         gameBackground = (RelativeLayout) findViewById(R.id.background);
         SetBackground();
     }
@@ -356,7 +329,13 @@ public class GameActivity extends Activity {
         SharedPreferences defaultPrefs;
         defaultPrefs = PreferenceManager.getDefaultSharedPreferences(FlowerPowerApplication.getAppContext());
 
-
         return Integer.parseInt(defaultPrefs.getString("listpref", "1"));
     }
+
+//    @Override
+//    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//
+//        getFragmentManager().putFragment(outState, "flowerFragment", flowerFragment);
+//    }
 }
