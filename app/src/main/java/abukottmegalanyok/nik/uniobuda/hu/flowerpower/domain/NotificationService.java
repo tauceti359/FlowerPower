@@ -21,9 +21,10 @@ public class NotificationService {
        NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
-                .setContentTitle("Értesítés minden " + interval + " órában.")
+                //.setContentTitle("Értesítés minden " + interval + " órában.")
+                .setContentTitle("Locsold meg a virágot!")
                 .setContentText("Koppintson a locsoláshoz.")
-                .setSmallIcon(R.drawable.ic_launcher)
+                .setSmallIcon(R.drawable.flowerpower)
                 .setOngoing(true)
                 .setAutoCancel(false);
 
@@ -36,6 +37,7 @@ public class NotificationService {
         stackBuilder.addNextIntent(intent);
 
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 ,intent, PendingIntent.FLAG_UPDATE_CURRENT );
 
         builder.setContentIntent(pendingIntent);
 

@@ -12,8 +12,8 @@ public class VibrateReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            VibrateService vibrateService = new VibrateService();
-            vibrateService.vibrate();
+//            VibrateService vibrateService = new VibrateService();
+//            vibrateService.vibrate();
 
             //TODO itt kell csökkentnei
         }

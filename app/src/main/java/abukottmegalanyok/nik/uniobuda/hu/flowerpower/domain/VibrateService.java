@@ -39,9 +39,9 @@ public class VibrateService {
     public boolean init() {
         isStarted = isMyServiceRunning();
         notifcationService.cancelNotification(FlowerPowerApplication.getAppContext());
-        if (isStarted) {
-            notifcationService.createNotification(FlowerPowerApplication.getAppContext(), getInterval());
-        }
+//        if (isStarted) {
+//            notifcationService.createNotification(FlowerPowerApplication.getAppContext(), getInterval());
+//        }
 
         return isStarted;
     }
@@ -64,7 +64,7 @@ public class VibrateService {
         }
     }
 
-    private void start() {
+    public void start() {
         startWithAlarmManager();
         isStarted = true;
         notifcationService.createNotification(FlowerPowerApplication.getAppContext(), getInterval());
@@ -72,6 +72,7 @@ public class VibrateService {
 
     public void stop() {
         isStarted = false;
+        notifcationService.cancelNotification(FlowerPowerApplication.getAppContext());
         Intent intent = new Intent(FlowerPowerApplication.getAppContext(), VibrateReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(FlowerPowerApplication.getAppContext(), 521, intent, 0);
         AlarmManager alarmManager = (AlarmManager) FlowerPowerApplication.getAppContext().getSystemService(Context.ALARM_SERVICE);

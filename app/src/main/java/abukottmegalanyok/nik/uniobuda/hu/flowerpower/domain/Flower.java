@@ -1,6 +1,8 @@
 package abukottmegalanyok.nik.uniobuda.hu.flowerpower.domain;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -43,7 +45,8 @@ public class Flower extends ImageView {
 
     //increase the flower's level
     public void LevelUp(){
-        this.level = this.getLevel() + 1;
+        if (this.level < 5)
+            this.level = this.getLevel() + 1;
     }
 
     //decrease the flower's level
@@ -71,4 +74,8 @@ public class Flower extends ImageView {
     public int getLevel() {
         return level;
     }
+
+    public void setLevel(int value) { this.level = value; }
+
+
 }
